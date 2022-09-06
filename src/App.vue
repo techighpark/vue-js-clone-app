@@ -36,6 +36,7 @@
   </div> -->
 
   <div v-for="(item, i) in products" :key="i">
+    <img :src="item.imgSrc" class="room-img" />
     <h4>{{ item.place }}</h4>
     <div>{{ item.count }}</div>
     <button @click="increase(i)">Report</button>
@@ -64,9 +65,21 @@ export default {
       // color: 'color:orange',
 
       products: [
-        { place: 'Namsan', count: 0 },
-        { place: 'Guseo', count: 0 },
-        { place: 'Seomyeon', count: 0 },
+        {
+          place: 'Namsan',
+          count: 0,
+          imgSrc: require('./assets/images/room0.jpg'),
+        },
+        {
+          place: 'Guseo',
+          count: 0,
+          imgSrc: require('./assets/images/room1.jpg'),
+        },
+        {
+          place: 'Seomyeon',
+          count: 0,
+          imgSrc: require('./assets/images/room2.jpg'),
+        },
       ],
       // forTest: [{ title: '1111' }, { title: '2222' }, { title: '3333' }],
       menu: ['Home', 'Products', 'About'],
@@ -105,6 +118,11 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+.room-img {
+  width: 100%;
+  margin-top: 100px;
+}
+
 .menu {
   background-color: darkslateblue;
   padding: 15px;
