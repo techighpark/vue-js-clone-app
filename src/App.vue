@@ -1,4 +1,13 @@
 <template>
+  <!-- modal -->
+  <div class="black-bg" v-if="modal === true">
+    <div class="white-bg">
+      <h4>Detail Page</h4>
+      <div>Detail</div>
+      <div @click="modalToggle">X</div>
+    </div>
+  </div>
+
   <div class="menu">
     <!-- <a>Home</a>
     <a>Products</a>
@@ -37,7 +46,7 @@
 
   <div v-for="(item, i) in products" :key="i">
     <img :src="item.imgSrc" class="room-img" />
-    <h4>{{ item.place }}</h4>
+    <h4 @click="modalToggle">{{ item.place }}</h4>
     <div>{{ item.count }}</div>
     <button @click="increase(i)">Report</button>
   </div>
@@ -63,7 +72,7 @@ export default {
       // //Binding to Arrays
       // bgColor: 'backgroundColor:green',
       // color: 'color:orange',
-
+      modal: true,
       products: [
         {
           place: 'Namsan',
@@ -97,6 +106,9 @@ export default {
       console.log(i);
       this.products.at(i).count++;
     },
+    modalToggle() {
+      this.modal = !this.modal;
+    },
   },
   computed: {
     classObject() {
@@ -111,6 +123,27 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0;
+}
+div {
+  box-sizing: border-box;
+}
+.black-bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  padding: 20px;
+}
+
+.white-bg {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -119,8 +152,11 @@ export default {
   color: #2c3e50;
 }
 .room-img {
+  box-sizing: border-box;
   width: 100%;
   margin-top: 100px;
+  border: 3px solid orange;
+  border-radius: 20px;
 }
 
 .menu {
