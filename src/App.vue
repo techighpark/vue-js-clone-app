@@ -7,63 +7,83 @@
     <a v-for="(data, i) in menu" :key="i">{{ data }}</a>
   </div>
   <!-- binding object -->
-  <div>
+  <!-- <div>
     Shopping Mall
     <h4 :style="style">{{ products[0] }} clone coding</h4>
     <p>{{ price1 }} dollar</p>
-    <button @click="greet">Report</button>
-  </div>
+    <div>Reported : {{ reported }}</div>
+    <button @click="reported++">Report</button>
+  </div> -->
   <!-- biding computed -->
-  <div>
+  <!-- <div>
     <h4 :style="classObject">vue clone coding</h4>
     <p>{{ price2 }} dollar</p>
     <button>Report</button>
-  </div>
+  </div> -->
 
   <!-- Binding to Arrays -->
-  <div>
+  <!-- <div>
     <h4 :style="[bgColor, color]">vue clone coding</h4>
     <p>{{ price2 }} dollar</p>
     <button>Report</button>
-  </div>
+  </div> -->
 
   <!-- multiple conditional binding -->
-  <div>
+  <!-- <div>
     <h4 :style="[bgColor, { color: style.color }]">vue clone coding</h4>
     <p>{{ price2 }} dollar</p>
     <button>Report</button>
+  </div> -->
+
+  <div v-for="(item, i) in products" :key="i">
+    <h4>{{ item.place }}</h4>
+    <div>{{ item.count }}</div>
+    <button @click="increase(i)">Report</button>
   </div>
 
-  <div v-for="(a, i) in products" :key="i">
-    <h4>{{ a }}</h4>
-    <button>Report</button>
-  </div>
-
-  <div v-for="({ title }, i) in forTest" :key="i">
+  <!-- <div v-for="({ title }, i) in forTest" :key="i">
     <h4>{{ title }}</h4>
-  </div>
+  </div> -->
 </template>
 
 <script>
 export default {
   name: 'App',
+
   data() {
     return {
-      price1: 60,
-      price2: 70,
-      //binding object
-      style: { backgroundColor: 'black', color: 'red' },
-      //biding computed
-      hasError: true,
-      error: '123',
-      //Binding to Arrays
-      bgColor: 'backgroundColor:green',
-      color: 'color:orange',
+      // price1: 60,
+      // price2: 70,
+      // //binding object
+      // style: { backgroundColor: 'black', color: 'red' },
+      // //biding computed
+      // hasError: true,
+      // error: '123',
+      // //Binding to Arrays
+      // bgColor: 'backgroundColor:green',
+      // color: 'color:orange',
 
-      products: ['Namsan', 'Guseo', 'Seomyeon'],
-      forTest: [{ title: '1111' }, { title: '2222' }, { title: '3333' }],
+      products: [
+        { place: 'Namsan', count: 0 },
+        { place: 'Guseo', count: 0 },
+        { place: 'Seomyeon', count: 0 },
+      ],
+      // forTest: [{ title: '1111' }, { title: '2222' }, { title: '3333' }],
       menu: ['Home', 'Products', 'About'],
+      reported: 0,
     };
+  },
+  methods: {
+    greet(event) {
+      alert(`Hello ${this.reported}`);
+      if (event) {
+        alert(event.target.tagName);
+      }
+    },
+    increase(i) {
+      console.log(i);
+      this.products.at(i).count++;
+    },
   },
   computed: {
     classObject() {
