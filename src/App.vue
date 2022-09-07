@@ -1,4 +1,9 @@
 <template>
+  <!-- if - else -->
+  <div v-if="123 === 1">Hello</div>
+  <div v-else-if="345 === 2">bye</div>
+  <div v-else>See ya</div>
+
   <!-- modal -->
   <div class="black-bg" v-if="modal === true">
     <div class="white-bg">
