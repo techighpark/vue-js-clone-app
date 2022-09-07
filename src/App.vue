@@ -141,6 +141,7 @@ export default {
       clickedProducts: 0,
       importProducts: products,
       importOriginalProducts: [...products],
+      showDiscount: true,
       // products: [
       //   {
       //     place: 'Namsan',
@@ -207,7 +208,12 @@ export default {
       this.importProducts = [...this.importOriginalProducts];
     },
   },
-  mounted() {},
+  mounted() {
+    // setTimeout(() => {
+    //   this.showDiscount = false;
+    //   console.log(this.showDiscount);
+    // }, 2000);
+  },
   computed: {
     // classObject() {
     //   return {
