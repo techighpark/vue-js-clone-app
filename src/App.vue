@@ -2,9 +2,15 @@
   <!-- modal -->
   <div class="black-bg" v-if="modal === true">
     <div class="white-bg">
-      <h4>Detail Page</h4>
-      <div>Detail</div>
-      <div @click="modalToggle">X</div>
+      <h4>{{ importProducts[clickedProducts].title }}</h4>
+      <div>{{ importProducts[clickedProducts].content }}</div>
+      <img
+        class="room-img"
+        :src="importProducts[clickedProducts].image"
+        alt=""
+      />
+      {{ clickedProducts }}
+      <button @click="closeModal">close</button>
     </div>
   </div>
 
@@ -43,11 +49,27 @@
     <p>{{ price2 }} dollar</p>
     <button>Report</button>
   </div> -->
-
-  <div v-for="(item, i) in products" :key="i">
-    <img :src="item.imgSrc" class="room-img" />
-    <h4 @click="modalToggle">{{ item.place }}</h4>
-    <div>{{ item.count }}</div>
+  <!-- personal -->
+  <div v-for="(item, i) in importProducts" :key="i">
+    <div @click="openModal(i)">
+      <img :src="item.image" class="room-img" />
+      <h4>{{ item.title }}</h4>
+      <div>{{ item.content }}</div>
+      <div>{{ item.price.toLocaleString() }}</div>
+    </div>
+    <div>Reported : {{ item.count }}</div>
+    <button @click="increase(i)">Report</button>
+  </div>
+  <hr />
+  <!-- apple coding -->
+  <div v-for="(item, i) in importProducts" :key="i">
+    <div @click="[openAppleModal(), (clickedProducts = i)]">
+      <img :src="item.image" class="room-img" />
+      <h4>{{ item.title }}</h4>
+      <div>{{ item.content }}</div>
+      <div>{{ item.price.toLocaleString() }}</div>
+    </div>
+    <div>Reported : {{ item.count }}</div>
     <button @click="increase(i)">Report</button>
   </div>
 
@@ -57,6 +79,7 @@
 </template>
 
 <script>
+import products from '@/data/products';
 export default {
   name: 'App',
 
@@ -72,51 +95,60 @@ export default {
       // //Binding to Arrays
       // bgColor: 'backgroundColor:green',
       // color: 'color:orange',
-      modal: true,
-      products: [
-        {
-          place: 'Namsan',
-          count: 0,
-          imgSrc: require('./assets/images/room0.jpg'),
-        },
-        {
-          place: 'Guseo',
-          count: 0,
-          imgSrc: require('./assets/images/room1.jpg'),
-        },
-        {
-          place: 'Seomyeon',
-          count: 0,
-          imgSrc: require('./assets/images/room2.jpg'),
-        },
-      ],
+      modal: false,
+      clickedProducts: 0,
+      importProducts: products,
+      // products: [
+      //   {
+      //     place: 'Namsan',
+      //     count: 0,
+      //     imgSrc: require('./assets/images/room0.jpg'),
+      //   },
+      //   {
+      //     place: 'Guseo',
+      //     count: 0,
+      //     imgSrc: require('./assets/images/room1.jpg'),
+      //   },
+      //   {
+      //     place: 'Seomyeon',
+      //     count: 0,
+      //     imgSrc: require('./assets/images/room2.jpg'),
+      //   },
+      // ],
       // forTest: [{ title: '1111' }, { title: '2222' }, { title: '3333' }],
       menu: ['Home', 'Products', 'About'],
       reported: 0,
     };
   },
   methods: {
-    greet(event) {
-      alert(`Hello ${this.reported}`);
-      if (event) {
-        alert(event.target.tagName);
-      }
-    },
+    // greet(event) {
+    //   alert(`Hello ${this.reported}`);
+    //   if (event) {
+    //     alert(event.target.tagName);
+    //   }
+    // },
     increase(i) {
-      console.log(i);
-      this.products.at(i).count++;
+      this.importProducts.at(i).count++;
     },
-    modalToggle() {
-      this.modal = !this.modal;
+    openModal(i) {
+      this.modal = true;
+      this.clickedProducts = i;
+    },
+    openAppleModal() {
+      this.modal = true;
+      console.log('appleModal');
+    },
+    closeModal() {
+      this.modal = false;
     },
   },
   computed: {
-    classObject() {
-      return {
-        backgroundColor: this.hasError ? 'black' : 'red',
-        color: this.error === 'true' ? 'red' : 'yellow',
-      };
-    },
+    // classObject() {
+    //   return {
+    //     backgroundColor: this.hasError ? 'black' : 'red',
+    //     color: this.error === 'true' ? 'red' : 'yellow',
+    //   };
+    // },
   },
   components: {},
 };
