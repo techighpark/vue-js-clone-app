@@ -5,7 +5,7 @@
   <div v-else>See ya</div>
 
   <!-- modal -->
-  <div class="black-bg" v-if="modal === true">
+  <!-- <div class="black-bg" v-if="modal === true">
     <div class="white-bg">
       <h4>{{ importProducts[clickedProducts].title }}</h4>
       <div>{{ importProducts[clickedProducts].content }}</div>
@@ -17,8 +17,23 @@
       {{ clickedProducts }}
       <button @click="closeModal">close</button>
     </div>
-  </div>
+  </div> -->
 
+  <Transition name="fade">
+    <Modal
+      @emitClose="closeModal"
+      :import-products="importProducts"
+      :clicked-products="clickedProducts"
+      :modal="modal"
+      :close-modal="closeModal"
+    />
+  </Transition>
+
+  <!-- banner -->
+  <div class="discount">
+    <h4>Discount Now for 20%</h4>
+  </div>
+  <Banner />
   <div class="menu">
     <!-- <a>Home</a>
     <a>Products</a>
@@ -54,8 +69,26 @@
     <p>{{ price2 }} dollar</p>
     <button>Report</button>
   </div> -->
+
+  <button @click="priceSort">by low price</button>
+  <button @click="reversePriceSort">by high price</button>
+  <button @click="nameSort">by abc</button>
+  <button @click="reverseNameSort">by zyx</button>
+  <button @click="reset">reset</button>
   <!-- personal -->
-  <div v-for="(item, i) in importProducts" :key="i">
+  <Card
+    @openModal="openModal($event)"
+    v-for="(item, i) in importProducts"
+    :key="i"
+    :item="item"
+    :increase="increase"
+  />
+  <!-- <Cards
+    :import-products="importProducts"
+    :increase="increase"
+    :openModal="openModal"
+  /> -->
+  <!-- <div v-for="(item, i) in importProducts" :key="i">
     <div @click="openModal(i)">
       <img :src="item.image" class="room-img" />
       <h4>{{ item.title }}</h4>
@@ -64,10 +97,10 @@
     </div>
     <div>Reported : {{ item.count }}</div>
     <button @click="increase(i)">Report</button>
-  </div>
+  </div> -->
   <hr />
   <!-- apple coding -->
-  <div v-for="(item, i) in importProducts" :key="i">
+  <!-- <div v-for="(item, i) in importProducts" :key="i">
     <div @click="[openAppleModal(), (clickedProducts = i)]">
       <img :src="item.image" class="room-img" />
       <h4>{{ item.title }}</h4>
@@ -76,7 +109,7 @@
     </div>
     <div>Reported : {{ item.count }}</div>
     <button @click="increase(i)">Report</button>
-  </div>
+  </div> -->
 
   <!-- <div v-for="({ title }, i) in forTest" :key="i">
     <h4>{{ title }}</h4>
@@ -85,6 +118,10 @@
 
 <script>
 import products from '@/data/products';
+import Banner from '@/components/Banner.vue';
+import Modal from '@/components/Modal.vue';
+// import Cards from './components/Cards.vue';
+import Card from './components/Card.vue';
 export default {
   name: 'App',
 
@@ -103,6 +140,7 @@ export default {
       modal: false,
       clickedProducts: 0,
       importProducts: products,
+      importOriginalProducts: [...products],
       // products: [
       //   {
       //     place: 'Namsan',
@@ -122,7 +160,7 @@ export default {
       // ],
       // forTest: [{ title: '1111' }, { title: '2222' }, { title: '3333' }],
       menu: ['Home', 'Products', 'About'],
-      reported: 0,
+      // reported: 0,
     };
   },
   methods: {
@@ -141,12 +179,35 @@ export default {
     },
     openAppleModal() {
       this.modal = true;
-      console.log('appleModal');
     },
     closeModal() {
       this.modal = false;
     },
+    priceSort() {
+      this.importProducts.sort(function (a, b) {
+        return a.price - b.price;
+      });
+    },
+    reversePriceSort() {
+      this.importProducts.sort(function (a, b) {
+        return b.price - a.price;
+      });
+    },
+    nameSort() {
+      this.importProducts.sort(function (a, b) {
+        return a.title.localeCompare(b.title);
+      });
+    },
+    reverseNameSort() {
+      this.importProducts.sort(function (a, b) {
+        return b.title.localeCompare(a.title);
+      });
+    },
+    reset() {
+      this.importProducts = [...this.importOriginalProducts];
+    },
   },
+  mounted() {},
   computed: {
     // classObject() {
     //   return {
@@ -155,7 +216,7 @@ export default {
     //   };
     // },
   },
-  components: {},
+  components: { Banner, Modal, Card },
 };
 </script>
 
@@ -206,5 +267,31 @@ div {
   color: white;
   padding: 10px;
   font-weight: 700;
+}
+
+.discount {
+  background-color: gray;
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: all 1s;
+}
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
