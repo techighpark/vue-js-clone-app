@@ -55,6 +55,12 @@ export default {
       required: true,
     },
   },
+  beforeUpdate() {
+    console.log(this.amount);
+    if (this.amount / 1 === 2) {
+      alert('Not sale for 2');
+    }
+  },
   watch: {
     amount(newParam, oldParam) {
       if (newParam.includes(' ')) {
