@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .discount {
   border: 3px solid red;
